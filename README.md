@@ -14,7 +14,7 @@ https://github.com/illuspas/Node-Media-Server
 
 obs如何连接
 
-服务器：http://localhost/live
+服务器：rtmp://localhost/live
 串流密钥：Luncode  可以在 Live_Server_Config.js 中修改
 
 

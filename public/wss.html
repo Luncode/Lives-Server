@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <title>wss</title>
+</head>
+<body>
+    <div class="container user">
+        <h1>wss测试</h1>
+        <input id="user"  type="text" placeholder="输入用户名">
+        <button id="sub_user" class="btn">提交用户名</button>
+    </div>
+    <div class="container send" style="display: none;">
+        <h1 id="msg">正在连接~~~</h1>
+        <input id="text" type="text">
+        <button id="sub" class="btn">发送给wss服务器</button>
+    </div>
+    <div class="chatroom">
+        
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    var msg  =  document.getElementById("msg");
+    var sub = document.getElementById("sub");
+    var text = document.getElementById("text");
+    var ws;
+
+    $("#sub_user").click(function(){
+        start_ws($("#user").val())
+        $(".user").attr("style","display:none")
+        $(".send").attr("style","display:block")
+    })
+
+    function start_ws(user){
+        ws = new WebSocket('ws://192.168.174.254:233')
+        ws.onopen = function(e){
+            console.log("wss服务器连接成功")
+            msg.innerHTML = "wss服务器连接成功"
+            ws.send(user)
+        }
+        ws.onclose = function(e){
+            console.log("wss服务器关闭");
+            alert("wss服务器关闭")
+        }
+        ws.onerror = function(){
+            console.log("wss服务器连接出错")
+            alert("wss服务器连接出错")
+        }
+        ws.onmessage = function(e){
+                    var time = new Date();
+                sub.onclick=function(e){
+                        var data = [];
+                        var msg = new Object();
+                        msg.msg=text.value
+                        msg.date=time;
+                        data.push(msg);
+                        ws.send(JSON.stringify(data)); 
+                        $("#text").val("")
+                }
+               
+                console.log(e.data);
+        }
+        setInterval(() => {
+                ws.send("")
+                console.log("发送心跳包保持连接")
+        }, 20000);
+    } 
+</script>
+</html>

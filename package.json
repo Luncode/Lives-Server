@@ -1,0 +1,21 @@
+{
+  "name": "Lives-Server",
+  "version": "1.0.0",
+  "description": "Lives-Server 直播服务 & wss 聊天",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luncode",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "flv.js": "^1.5.0",
+    "mysql": "^2.18.1",
+    "node-media-server": "^2.2.8",
+    "nodejs-websocket": "^1.7.2",
+    "nodemon": "^2.0.7"
+  }
+}
